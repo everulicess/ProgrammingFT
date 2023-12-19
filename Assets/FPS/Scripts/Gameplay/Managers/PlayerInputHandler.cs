@@ -175,6 +175,16 @@ namespace Unity.FPS.Gameplay
 
             return false;
         }
+        //LevelUp button copied from reload
+        public bool GetLevelUpButtonDown()
+        {
+            if (CanProcessInput())
+            {
+                return Input.GetButtonDown(GameConstants.k_ButtonLevelUp);
+            }
+
+            return false;
+        }
 
         public int GetSwitchWeaponInput()
         {

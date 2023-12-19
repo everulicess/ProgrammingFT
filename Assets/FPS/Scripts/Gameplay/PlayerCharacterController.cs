@@ -210,6 +210,13 @@ namespace Unity.FPS.Gameplay
             {
                 SetCrouchingState(!IsCrouching, false);
             }
+            //level up "L"
+            if (m_InputHandler.GetLevelUpButtonDown())
+            {
+                Debug.Log("Level Up");
+
+                EventManager.Broadcast(new LevelUpEvent());
+            }
 
             UpdateCharacterHeight(false);
 

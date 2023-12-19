@@ -16,8 +16,27 @@ namespace Unity.FPS.Game
         public static AmmoPickupEvent AmmoPickupEvent = new AmmoPickupEvent();
         public static DamageEvent DamageEvent = new DamageEvent();
         public static DisplayMessageEvent DisplayMessageEvent = new DisplayMessageEvent();
+
+        //Skills upgraded
+        public static PhysicalSkillUpgradedEvent PhysicalSkillUpdated = new PhysicalSkillUpgradedEvent();
+
+        //Level Up
+        public static LevelUpEvent LevelUp = new LevelUpEvent();
     }
 
+    
+    public class LevelUpEvent:GameEvent
+    {
+        public void DebugSomeething(string str)
+        {
+            Debug.Log(str);
+        }
+    }
+    public class PhysicalSkillUpgradedEvent:GameEvent
+    {
+        public string SkillName;
+    }
+    //---------------------------------------------
     public class ObjectiveUpdateEvent : GameEvent
     {
         public Objective Objective;
