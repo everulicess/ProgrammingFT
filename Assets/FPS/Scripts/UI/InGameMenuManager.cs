@@ -29,6 +29,19 @@ namespace Unity.FPS.UI
         [Tooltip("GameObject for the controls")]
         public GameObject ControlImage;
 
+        //skill tree
+        [Tooltip("Root GameObject of the Skill Tree used to toggle its activation")]
+        public GameObject SkillTree;
+
+        [Tooltip("GameObject for the Health Skills")]
+        public GameObject HealthSkillsImage;
+
+        [Tooltip("GameObject for the Movement Skills")]
+        public GameObject MovementSkillsImage;
+
+        [Tooltip("GameObject for the Weapons Skills")]
+        public GameObject WeaponsSkillsImage;
+
         PlayerInputHandler m_PlayerInputsHandler;
         Health m_PlayerHealth;
         FramerateCounter m_FramerateCounter;
@@ -46,6 +59,7 @@ namespace Unity.FPS.UI
             DebugUtility.HandleErrorIfNullFindObject<FramerateCounter, InGameMenuManager>(m_FramerateCounter, this);
 
             MenuRoot.SetActive(false);
+            SkillTree.SetActive(false);
 
             LookSensitivitySlider.value = m_PlayerInputsHandler.LookSensitivity;
             LookSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
@@ -63,7 +77,7 @@ namespace Unity.FPS.UI
         void Update()
         {
             // Lock cursor when clicking outside of menu
-            if (!MenuRoot.activeSelf && Input.GetMouseButtonDown(0))
+            if (!MenuRoot.activeSelf && !SkillTree.activeSelf && Input.GetMouseButtonDown(0))
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -88,6 +102,29 @@ namespace Unity.FPS.UI
 
             }
 
+            //------------------SkillTree--------------------------
+            if (Input.GetButtonDown(GameConstants.k_ButtonNameSkillTree)
+                || (SkillTree.activeSelf && Input.GetButtonDown(GameConstants.k_ButtonNameCancel)))
+            {
+                if (HealthSkillsImage.activeSelf)
+                {
+                    HealthSkillsImage.SetActive(false);
+                    return;
+                }
+                if ( MovementSkillsImage.activeSelf)
+                {
+                    MovementSkillsImage.SetActive(false);
+                    return;
+                }
+                if (WeaponsSkillsImage.activeSelf)
+                {
+                    WeaponsSkillsImage.SetActive(false);
+                    return;
+                }
+                Debug.Log("OPEN SKILL TREE");
+                SetSkillTreeActivation(!SkillTree.activeSelf);
+            }
+
             if (Input.GetAxisRaw(GameConstants.k_AxisNameVertical) != 0)
             {
                 if (EventSystem.current.currentSelectedGameObject == null)
@@ -102,13 +139,14 @@ namespace Unity.FPS.UI
         {
             SetPauseMenuActivation(false);
         }
-
+       
         void SetPauseMenuActivation(bool active)
         {
             MenuRoot.SetActive(active);
-
             if (MenuRoot.activeSelf)
             {
+                SkillTree.SetActive(!active);
+
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Time.timeScale = 0f;
@@ -149,6 +187,56 @@ namespace Unity.FPS.UI
         public void OnShowControlButtonClicked(bool show)
         {
             ControlImage.SetActive(show);
+        }
+
+        //------------------------------------------skill tree
+        public void CloseSkillTree()
+        {
+            SetSkillTreeActivation(false);
+        }
+        void SetSkillTreeActivation(bool active)
+        {
+            SkillTree.SetActive(active);
+
+
+            if (SkillTree.activeSelf)
+            {
+                MenuRoot.SetActive(!active);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Time.timeScale = 0f;
+                AudioUtility.SetMasterVolume(VolumeWhenMenuOpen);
+
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
+                AudioUtility.SetMasterVolume(1);
+            }
+
+        }
+        public void OnShowHealthSkillsButtonClicked(bool show)
+        {
+            HealthSkillsImage.SetActive(show);
+            MovementSkillsImage.SetActive(!show);
+            WeaponsSkillsImage.SetActive(!show);
+        }
+        public void OnShowMovementSkillsButtonClicked(bool show)
+        {
+            MovementSkillsImage.SetActive(show);
+            WeaponsSkillsImage.SetActive(!show);
+            HealthSkillsImage.SetActive(!show);
+
+
+        }
+        public void OnShowWeaponsSkillsButtonClicked(bool show)
+        {
+            WeaponsSkillsImage.SetActive(show);
+            HealthSkillsImage.SetActive(!show);
+            MovementSkillsImage.SetActive(!show);
         }
     }
 }

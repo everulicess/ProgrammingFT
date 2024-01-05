@@ -1,25 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Unity.FPS.Game;
+using TMPro;
 
 namespace EverMechanic
 {
     
     public class LevelManager : MonoBehaviour
     {
-        
-        
+        public Image LevelIndicator;
+        public TextMeshProUGUI LevelNumberText;
+
+        int levelNumber;
+        float maxExperience = 20;
+        float currentExperience = 0;
         void Start()
         {
             EventManager.AddListener<LevelUpEvent>(LevelUp);
             EventManager.AddListener<EnemyKillEvent>(OnEnemyKilled);
+            
         }
 
         void Update()
         {
-
+            LevelIndicator.fillAmount = currentExperience/maxExperience;
+            LevelNumberText.text = levelNumber.ToString(); 
+            if (currentExperience == maxExperience)
+            {
+                Debug.Log("NewLevelReached");
+            }
         }
+
+
         /// <summary>
         /// create Event in Events
         /// How to fire the evet = EventManager.Broadcast(new LevelUpEvent());
@@ -29,11 +43,24 @@ namespace EverMechanic
         /// <param name="_event"></param>
         void LevelUp(LevelUpEvent _event)
         {
-            Debug.Log(" NEW LEVEL HAS REACHED");
+            _event.DebugSomeething("NEW LEVEL HAS BEEN REACHED");
         }
 
         void OnEnemyKilled(EnemyKillEvent _event)
         {
+            
+            currentExperience += 15;
+            
+            if (currentExperience >= maxExperience)
+            {
+                levelNumber++;
+                currentExperience -= maxExperience;
+                maxExperience *= 1.50f; ;
+                Debug.Log("NewLevelReached");
+                EventManager.Broadcast(new LevelUpEvent());
+            }
+            Debug.Log($"Current fill amount: {LevelIndicator.fillAmount}");
+            Debug.Log($"Current exp: {currentExperience}|||| current Max Exp: {maxExperience}");
             Debug.Log("Gets Experience");
 
         }

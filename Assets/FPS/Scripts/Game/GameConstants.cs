@@ -25,7 +25,10 @@
         public const string k_ButtonNameSubmit = "Submit";
         public const string k_ButtonNameCancel = "Cancel";
         public const string k_ButtonReload = "Reload";
-
+        //LevelUP
         public const string k_ButtonLevelUp = "LevelUp";
+        //SkillTree
+        public const string k_ButtonNameSkillTree = "Skill Tree";
+
     }
 }
