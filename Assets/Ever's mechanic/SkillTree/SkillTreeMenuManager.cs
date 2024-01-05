@@ -17,8 +17,12 @@ public class SkillTreeMenuManager : MonoBehaviour
     private void LevelUp(LevelUpEvent _event)
     {
         skillPoints+=2;
-
         Debug.Log(skillPoints);
+    }
+
+    void BuySkill(string _skillName)
+    {
+
     }
 
 

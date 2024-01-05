@@ -22,7 +22,10 @@ namespace EverMechanic
             EventManager.AddListener<EnemyKillEvent>(OnEnemyKilled);
             
         }
-
+        private void OnDestroy()
+        {
+            EventManager.RemoveListener<EnemyKillEvent>(OnEnemyKilled);
+        }
         void Update()
         {
             LevelIndicator.fillAmount = currentExperience/maxExperience;

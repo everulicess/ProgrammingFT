@@ -189,7 +189,7 @@ namespace Unity.FPS.UI
             ControlImage.SetActive(show);
         }
 
-        //------------------------------------------skill tree
+        //------------------------------------------skill tree----------------------------
         public void CloseSkillTree()
         {
             SetSkillTreeActivation(false);
