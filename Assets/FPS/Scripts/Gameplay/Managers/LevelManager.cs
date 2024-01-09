@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.FPS.Game;
-using TMPro;
 
-namespace EverMechanic
+
+namespace Unity.FPS.Gameplay
 {
     
     public class LevelManager : MonoBehaviour
     {
         public Image LevelIndicator;
-        public TextMeshProUGUI LevelNumberText;
-
+        //public TMPro.TextMeshProUGUI LevelNumberText;
+        
         int levelNumber;
         float maxExperience = 20;
         float currentExperience = 0;
         void Start()
         {
-            EventManager.AddListener<LevelUpEvent>(LevelUp);
+            //    EventManager.AddListener<LevelUpEvent>(LevelUp);
             EventManager.AddListener<EnemyKillEvent>(OnEnemyKilled);
             
         }
@@ -29,7 +27,7 @@ namespace EverMechanic
         void Update()
         {
             LevelIndicator.fillAmount = currentExperience/maxExperience;
-            LevelNumberText.text = levelNumber.ToString(); 
+            //LevelNumberText.text = levelNumber.ToString(); 
             if (currentExperience == maxExperience)
             {
                 Debug.Log("NewLevelReached");
@@ -44,10 +42,10 @@ namespace EverMechanic
         /// Don't forget to remove the listener = EventManager.RemoveListener<LevelUpEvent>(LevelUp);
         /// </summary>
         /// <param name="_event"></param>
-        void LevelUp(LevelUpEvent _event)
-        {
-            _event.DebugSomeething("NEW LEVEL HAS BEEN REACHED");
-        }
+        //void LevelUp(LevelUpEvent _event)
+        //{
+        //    _event.DebugSomeething("NEW LEVEL HAS BEEN REACHED");
+        //}
 
         void OnEnemyKilled(EnemyKillEvent _event)
         {

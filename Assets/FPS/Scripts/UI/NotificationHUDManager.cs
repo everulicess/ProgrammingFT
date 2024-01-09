@@ -1,6 +1,9 @@
 ﻿using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 
 namespace Unity.FPS.UI
 {
@@ -11,7 +14,7 @@ namespace Unity.FPS.UI
 
         [Tooltip("Prefab for the notifications")]
         public GameObject NotificationPrefab;
-
+        
         void Awake()
         {
             PlayerWeaponsManager playerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
@@ -23,6 +26,15 @@ namespace Unity.FPS.UI
             DebugUtility.HandleErrorIfNullFindObject<Jetpack, NotificationHUDManager>(jetpack, this);
             jetpack.OnUnlockJetpack += OnUnlockJetpack;
 
+            //Skills unlocking
+            //Dash
+            SkillTreeMenuManager skills = FindObjectOfType<SkillTreeMenuManager>();
+            DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(skills, this);
+            skills.OnUnlockDash += OnDashUnlocked;
+
+            //Ammo Increasing
+            skills.OnAmmoIncreased += OnAmmoIncreased;
+            
             EventManager.AddListener<ObjectiveUpdateEvent>(OnObjectiveUpdateEvent);
         }
 
@@ -41,6 +53,16 @@ namespace Unity.FPS.UI
         void OnUnlockJetpack(bool unlock)
         {
             CreateNotification("Jetpack unlocked");
+        }
+
+        //On Dash Unlocked
+        void OnDashUnlocked(bool unlock)
+        {
+            CreateNotification("Dash Unlocked");
+        }
+        void OnAmmoIncreased(bool unlock)
+        {
+            CreateNotification("Ammo Increased");
         }
 
         public void CreateNotification(string text)

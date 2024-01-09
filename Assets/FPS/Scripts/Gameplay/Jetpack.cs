@@ -9,7 +9,7 @@ namespace Unity.FPS.Gameplay
     {
         [Header("References")] [Tooltip("Audio source for jetpack sfx")]
         public AudioSource AudioSource;
-
+        
         [Tooltip("Particles for jetpack vfx")] public ParticleSystem[] JetpackVfx;
 
         [Header("Parameters")] [Tooltip("Whether the jetpack is unlocked at the begining or not")]
@@ -17,7 +17,7 @@ namespace Unity.FPS.Gameplay
 
         [Tooltip("The strength with which the jetpack pushes the player up")]
         public float JetpackAcceleration = 7f;
-
+        
         [Range(0f, 1f)]
         [Tooltip(
             "This will affect how much using the jetpack will cancel the gravity value, to start going up faster. 0 is not at all, 1 is instant")]

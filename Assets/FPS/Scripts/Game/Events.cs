@@ -32,7 +32,7 @@ namespace Unity.FPS.Game
             Debug.Log(str);
         }
     }
-    public class PhysicalSkillUpgradedEvent:GameEvent
+    public class PhysicalSkillUpgradedEvent : GameEvent
     {
         public string SkillName;
     }

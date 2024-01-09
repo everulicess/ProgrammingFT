@@ -1,29 +1,63 @@
-using Unity.FPS.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using System;
+using UnityEngine.Events;
+using Unity.FPS.Game;
 
-public class SkillTreeMenuManager : MonoBehaviour
-{
-    int skillPoints = 0;
 
-    private void Start()
+namespace Unity.FPS.Gameplay
+{ 
+    public class SkillTreeMenuManager : MonoBehaviour
     {
-        EventManager.AddListener<LevelUpEvent>(LevelUp);
-    }
+        int skillPoints = 0;
+        public UnityAction<bool> OnUnlockDash;
+        public UnityAction<bool> OnAmmoIncreased;
+        public UnityAction<string> OnSkillBuy;
+        // Start is called before the first frame update
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                OnUnlockDash.Invoke(true);
+                OnSkillBuy.Invoke("Dash");
+                Debug.Log("unlock Dash pressed");
 
-    private void LevelUp(LevelUpEvent _event)
-    {
-        skillPoints+=2;
-        Debug.Log(skillPoints);
-    }
+            }
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                PhysicalSkillUpgradedEvent evt = Events.PhysicalSkillUpdated;
+                evt.SkillName = "Ammo Increase";
+                EventManager.Broadcast(evt);
+                OnAmmoIncreased.Invoke(true);
+                Debug.Log("Ammo increased pressed");
 
-    void BuySkill(string _skillName)
-    {
+            }
+        }
+        public void DamageUpgrade()
+        {
 
-    }
+        }
+        public void DashUnlocked()
+        {
+
+        }
+
+
+        private void Start()
+        {
+            EventManager.AddListener<LevelUpEvent>(LevelUp);
+        }
+
+        private void LevelUp(LevelUpEvent _event)
+        {
+            skillPoints+=2;
+            Debug.Log(skillPoints);
+        }
+
+        void BuySkill(string _skillName)
+        {
+
+        }
 
 
 
@@ -99,4 +133,5 @@ public class SkillTreeMenuManager : MonoBehaviour
     //    }
 
     //}
+    }
 }
