@@ -14,61 +14,61 @@ namespace Unity.FPS.Gameplay
         [TextArea(1, 4)]
         public List<string> SkillNames = new();
 
-
+        public UnityAction<bool> OnUnlockDash;
+        public UnityAction<bool> OnAmmoIncreased;
+        public UnityAction<bool> OnHealthIncreased;
+        public UnityAction<bool> OnHealingIncreased;
         private void Start()
         {
-            SkillTreeMenuManager skills = FindObjectOfType<SkillTreeMenuManager>();
-            DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, Skills>(skills, this);
-            skills.OnUnlockDash += OnDashUnlocked;
+            //SkillTreeMenuManager skills = FindObjectOfType<SkillTreeMenuManager>();
+            //DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, Skills>(skills, this);
+            //skills.OnUnlockDash += OnDashUnlocked;
 
-            skills.OnSkillBuy += OnSkillBuy;
+            //skills.OnSkillBuy += OnSkillBuy;
             //Subscribe to events
-            EventManager.AddListener<PhysicalSkillUpgradedEvent>(OnPhysicalSkillUpgraded);
+            EventManager.AddListener<SkillBuyEvent>(OnSkillBuy);
         }
-        public void OnSkillBuy(string nameSkill)
+        public void OnSkillBuy(SkillBuyEvent _event)
         {
+            string nameSkill = _event.SkillName;
             Debug.Log("this skill has been bought: " + nameSkill);
             switch (nameSkill)
             {
                 case "Dash":
-                    Debug.Log("DASH HAS BEEN BOUGHT");
-                    OnDashUnlocked(true);
+                    OnDashUnlocked();
                     ;break;
-                case "Health Increase":
-                    Debug.Log("Health Increase has been bought")
+                case "Health":
+                    AmmoIncreaseUpgrade();
                     ;break;
-                case "Healing Increase":
-                    Debug.Log("Healing Increase has been bought")
+                case "Healing":
+                    HealthUpgrade();
                     ; break;
-                case "Speed Increase":
-                    Debug.Log("Speed Increase has been bought")
+                case "Speed":
+                    
                     ; break;
-                case "Ammo Increase":
-                    Debug.Log("Ammo Increase has been bought")
-                    ; break;
-                case "Damage Increase":
-                    Debug.Log("Healing Increase has been bought")
-                    ; break;
-                default:
-                    break;
-            }
-        }
-        public void OnPhysicalSkillUpgraded(PhysicalSkillUpgradedEvent _event)
-        {
-            //_event.SkillName;
-            switch (_event.SkillName)
-            {
-                case "Ammo Increase":
-                    Debug.LogWarning("AMMO INCREASE USING THE EVENT");
-                    ;break;
-                default:
-                    break;
-            }
-        }
-        public void CreateSkill(string name)
-        {
+                case "Ammo":
 
+                    ; break;
+                case "Damage":
+
+                    ; break;
+                default:
+                    break;
+            }
         }
+        //public void OnSkillBuy(SkillBuyEvent _event)
+        //{
+        //    //_event.SkillName;
+        //    switch (_event.SkillName)
+        //    {
+        //        case "Ammo Increase":
+        //            Debug.LogWarning("AMMO INCREASE USING THE EVENT");
+        //            ;break;
+        //        default:
+        //            break;
+        //    }
+        //}
+        
         public void HealthUpgrade()
         {
 
@@ -81,9 +81,10 @@ namespace Unity.FPS.Gameplay
         {
 
         }
-        public void OnDashUnlocked(bool unlock)
+        public void OnDashUnlocked()
         {
-            
+
+            OnUnlockDash.Invoke(true);
         }
        
     }

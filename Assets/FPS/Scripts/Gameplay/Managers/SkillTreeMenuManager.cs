@@ -9,55 +9,26 @@ namespace Unity.FPS.Gameplay
 { 
     public class SkillTreeMenuManager : MonoBehaviour
     {
-        int skillPoints = 0;
-        public UnityAction<bool> OnUnlockDash;
-        public UnityAction<bool> OnAmmoIncreased;
-        public UnityAction<string> OnSkillBuy;
-        // Start is called before the first frame update
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                OnUnlockDash.Invoke(true);
-                OnSkillBuy.Invoke("Dash");
-                Debug.Log("unlock Dash pressed");
-
-            }
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                PhysicalSkillUpgradedEvent evt = Events.PhysicalSkillUpdated;
-                evt.SkillName = "Ammo Increase";
-                EventManager.Broadcast(evt);
-                OnAmmoIncreased.Invoke(true);
-                Debug.Log("Ammo increased pressed");
-
-            }
-        }
-        public void DamageUpgrade()
-        {
-
-        }
-        public void DashUnlocked()
-        {
-
-        }
-
+        public int skillPoints = 0;
+        
+        
 
         private void Start()
         {
             EventManager.AddListener<LevelUpEvent>(LevelUp);
+            EventManager.AddListener<SkillBuyEvent>(SkillBuy);
         }
 
         private void LevelUp(LevelUpEvent _event)
         {
-            skillPoints+=2;
+            skillPoints += 2;
             Debug.Log(skillPoints);
         }
-
-        void BuySkill(string _skillName)
+        private void SkillBuy(SkillBuyEvent _event)
         {
-
+            skillPoints -= _event.SkillPrice;
         }
+
 
 
 

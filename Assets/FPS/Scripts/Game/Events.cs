@@ -18,7 +18,7 @@ namespace Unity.FPS.Game
         public static DisplayMessageEvent DisplayMessageEvent = new DisplayMessageEvent();
 
         //Skills upgraded
-        public static PhysicalSkillUpgradedEvent PhysicalSkillUpdated = new PhysicalSkillUpgradedEvent();
+        public static SkillBuyEvent SkillBuyEvent = new SkillBuyEvent();
 
         //Level Up
         public static LevelUpEvent LevelUp = new LevelUpEvent();
@@ -27,14 +27,13 @@ namespace Unity.FPS.Game
     
     public class LevelUpEvent:GameEvent
     {
-        public void DebugSomeething(string str)
-        {
-            Debug.Log(str);
-        }
+        
     }
-    public class PhysicalSkillUpgradedEvent : GameEvent
+    public class SkillBuyEvent : GameEvent
     {
         public string SkillName;
+        public int SkillLevel;
+        public int SkillPrice;
     }
     //---------------------------------------------
     public class ObjectiveUpdateEvent : GameEvent

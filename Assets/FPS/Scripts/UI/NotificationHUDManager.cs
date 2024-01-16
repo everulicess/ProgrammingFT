@@ -28,8 +28,8 @@ namespace Unity.FPS.UI
 
             //Skills unlocking
             //Dash
-            SkillTreeMenuManager skills = FindObjectOfType<SkillTreeMenuManager>();
-            DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(skills, this);
+            Skills skills = FindObjectOfType<Skills>();
+            DebugUtility.HandleErrorIfNullFindObject<Skills, NotificationHUDManager>(skills, this);
             skills.OnUnlockDash += OnDashUnlocked;
 
             //Ammo Increasing

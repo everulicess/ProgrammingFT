@@ -5,7 +5,6 @@ using Unity.FPS.Game;
 
 namespace Unity.FPS.Gameplay
 {
-    
     public class LevelManager : MonoBehaviour
     {
         public Image LevelIndicator;
@@ -60,9 +59,9 @@ namespace Unity.FPS.Gameplay
                 Debug.Log("NewLevelReached");
                 EventManager.Broadcast(new LevelUpEvent());
             }
-            Debug.Log($"Current fill amount: {LevelIndicator.fillAmount}");
-            Debug.Log($"Current exp: {currentExperience}|||| current Max Exp: {maxExperience}");
-            Debug.Log("Gets Experience");
+            //Debug.Log($"Current fill amount: {LevelIndicator.fillAmount}");
+            //Debug.Log($"Current exp: {currentExperience}|||| current Max Exp: {maxExperience}");
+            //Debug.Log("Gets Experience");
 
         }
     }
