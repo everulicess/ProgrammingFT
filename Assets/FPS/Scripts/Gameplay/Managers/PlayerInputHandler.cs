@@ -180,7 +180,16 @@ namespace Unity.FPS.Gameplay
         {
             if (CanProcessInput())
             {
-                return Input.GetButtonDown(GameConstants.k_ButtonLevelUp);
+                return Input.GetButtonDown(GameConstants.k_ButtonNameLevelUp);
+            }
+
+            return false;
+        }
+        public bool GetDashButtonDown()
+        {
+            if (CanProcessInput())
+            {
+                return Input.GetButtonDown(GameConstants.k_ButtonNameDash);
             }
 
             return false;

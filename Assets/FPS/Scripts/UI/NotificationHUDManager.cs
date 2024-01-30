@@ -34,6 +34,14 @@ namespace Unity.FPS.UI
 
             //Ammo Increasing
             skills.OnAmmoIncreased += OnAmmoIncreased;
+
+            skills.OnHealingIncreased += OnHealingIncreased;
+
+            skills.OnDamageIncreased += OnDamageIncreased;
+
+            skills.OnHealthIncreased += OnHealthIncreased;
+
+            skills.OnSpeedIncreased += OnSpeedIncreased;
             
             EventManager.AddListener<ObjectiveUpdateEvent>(OnObjectiveUpdateEvent);
         }
@@ -63,6 +71,22 @@ namespace Unity.FPS.UI
         void OnAmmoIncreased(bool unlock)
         {
             CreateNotification("Ammo Increased");
+        } 
+        void OnHealingIncreased(bool unlock)
+        {
+            CreateNotification("Healing Increased");
+        }
+        void OnDamageIncreased(bool unlock)
+        {
+            CreateNotification("Damage Increased");
+        }
+        void OnHealthIncreased(bool unlock)
+        {
+            CreateNotification("Health Increased");
+        }
+        void OnSpeedIncreased(bool unlock)
+        {
+            CreateNotification("Speed Increased");
         }
 
         public void CreateNotification(string text)

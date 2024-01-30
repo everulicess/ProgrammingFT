@@ -1,30 +1,43 @@
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 using System.Collections.Generic;
 
 namespace Unity.FPS.Gameplay
 {
-
+    [RequireComponent(typeof(DashSkill), typeof(Health), typeof(PlayerCharacterController))]
     public class Skills : MonoBehaviour
     {
         //increase healing, increase health, increase speed, increase ammo, increase damage, having a dash with a cooldown
 
         [Header("Skill Names")]
-        [TextArea(1, 4)]
-        public List<string> SkillNames = new();
+        
 
         public UnityAction<bool> OnUnlockDash;
         public UnityAction<bool> OnAmmoIncreased;
         public UnityAction<bool> OnHealthIncreased;
         public UnityAction<bool> OnHealingIncreased;
+        public UnityAction<bool> OnSpeedIncreased;
+        public UnityAction<bool> OnDamageIncreased;
+        bool healingUpgraded;
+        DashSkill m_DashSkill;
+        PlayerCharacterController m_PlayerController;
+        Health m_PlayerHealth;
         private void Start()
         {
-            //SkillTreeMenuManager skills = FindObjectOfType<SkillTreeMenuManager>();
-            //DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, Skills>(skills, this);
-            //skills.OnUnlockDash += OnDashUnlocked;
+            m_DashSkill = GetComponent<DashSkill>();
+            DebugUtility.HandleErrorIfNullGetComponent<DashSkill, Skills>(m_DashSkill,
+                this, gameObject);
+            m_DashSkill.enabled = false;
 
-            //skills.OnSkillBuy += OnSkillBuy;
+            m_PlayerController = GetComponent<PlayerCharacterController>();
+            DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, Skills>(m_PlayerController,
+                this, gameObject);
+
+            m_PlayerHealth = GetComponent<Health>();
+            DebugUtility.HandleErrorIfNullGetComponent<Health, Skills>(m_PlayerHealth,
+                this, gameObject);
             //Subscribe to events
             EventManager.AddListener<SkillBuyEvent>(OnSkillBuy);
         }
@@ -38,19 +51,19 @@ namespace Unity.FPS.Gameplay
                     OnDashUnlocked();
                     ;break;
                 case "Health":
-                    AmmoIncreaseUpgrade();
+                    HealthUpgrade();
                     ;break;
                 case "Healing":
-                    HealthUpgrade();
+                    HealingUpgrade();
                     ; break;
                 case "Speed":
-                    
+                    OnSpeedUpgrade();
                     ; break;
                 case "Ammo":
-
+                    AmmoIncreaseUpgrade();
                     ; break;
                 case "Damage":
-
+                    OnDamageUpgrade();
                     ; break;
                 default:
                     break;
@@ -68,23 +81,45 @@ namespace Unity.FPS.Gameplay
         //            break;
         //    }
         //}
-        
+        private void Update()
+        {
+            if (healingUpgraded)
+            {
+                foreach (HealthPickup healthPickup in FindObjectsOfType<HealthPickup>())
+                {
+                    healthPickup.HealAmount = 60;
+                }
+            }
+        }
+        public void OnDamageUpgrade()
+        {
+            OnDamageIncreased.Invoke(true);
+        }
         public void HealthUpgrade()
         {
-
+            OnHealthIncreased.Invoke(true);
+            m_PlayerHealth.MaxHealth += 50f;
+            Debug.Log(m_PlayerHealth.MaxHealth);
         }
         public void HealingUpgrade()
         {
-
+            OnHealingIncreased.Invoke(true);
+            healingUpgraded = true;
+            
         }
         public void AmmoIncreaseUpgrade()
         {
-
+            OnAmmoIncreased.Invoke(true);
         }
         public void OnDashUnlocked()
         {
-
             OnUnlockDash.Invoke(true);
+            m_DashSkill.enabled = true;
+        }
+        public void OnSpeedUpgrade()
+        {
+            OnSpeedIncreased.Invoke(true);
+            m_PlayerController.MaxSpeedOnGround += 10f;
         }
        
     }

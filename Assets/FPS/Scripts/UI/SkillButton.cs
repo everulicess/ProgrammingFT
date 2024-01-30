@@ -49,8 +49,6 @@ namespace Unity.FPS.UI
             if (skillNameTextHolder.text == string.Empty) return;
         
             BuySkill($"{skillNameTextHolder.text}");
-
-
         }
         public void BuySkill(string skillName)
         {
@@ -68,7 +66,7 @@ namespace Unity.FPS.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log($"hovering over button: {skillName}");
+            //Debug.Log($"hovering over button: {skillName}");
             ShowExplanation(true);
         }
         private void ShowExplanation(bool activate)
@@ -77,7 +75,7 @@ namespace Unity.FPS.UI
         }
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log($"hovering exit button: {skillName}");
+            //Debug.Log($"hovering exit button: {skillName}");
             ShowExplanation(false);
         }
     }

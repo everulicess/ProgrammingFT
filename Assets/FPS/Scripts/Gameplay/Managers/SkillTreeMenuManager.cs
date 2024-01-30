@@ -11,8 +11,6 @@ namespace Unity.FPS.Gameplay
     {
         public int skillPoints = 0;
         
-        
-
         private void Start()
         {
             EventManager.AddListener<LevelUpEvent>(LevelUp);
@@ -22,19 +20,11 @@ namespace Unity.FPS.Gameplay
         private void LevelUp(LevelUpEvent _event)
         {
             skillPoints += 2;
-            Debug.Log(skillPoints);
         }
         private void SkillBuy(SkillBuyEvent _event)
         {
             skillPoints -= _event.SkillPrice;
         }
-
-
-
-
-
-
-
 
 
 

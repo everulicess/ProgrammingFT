@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.FPS.Game;
+using TMPro;
 
 
-namespace Unity.FPS.Gameplay
+
+namespace Unity.FPS.Game
 {
     public class LevelManager : MonoBehaviour
     {
         public Image LevelIndicator;
-        //public TMPro.TextMeshProUGUI LevelNumberText;
+        [SerializeField] TextMeshProUGUI LevelNumberText;
         
         int levelNumber;
         float maxExperience = 20;
@@ -26,7 +27,7 @@ namespace Unity.FPS.Gameplay
         void Update()
         {
             LevelIndicator.fillAmount = currentExperience/maxExperience;
-            //LevelNumberText.text = levelNumber.ToString(); 
+            LevelNumberText.text = levelNumber.ToString(); 
             if (currentExperience == maxExperience)
             {
                 Debug.Log("NewLevelReached");
