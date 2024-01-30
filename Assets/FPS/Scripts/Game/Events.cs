@@ -25,13 +25,14 @@ namespace Unity.FPS.Game
     }
 
     
-    public class LevelUpEvent:GameEvent
+    public class LevelUpEvent : GameEvent
     {
         
     }
     public class SkillBuyEvent : GameEvent
     {
-        public string SkillName;
+        //public string SkillName;
+        public MySkills Skill;
         public int SkillLevel;
         public int SkillPrice;
     }

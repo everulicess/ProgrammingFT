@@ -14,16 +14,15 @@ namespace Unity.FPS.Gameplay
         //public Transform playerCam;
         CharacterController m_Controller;
         //PlayerCharacterController m_PlayerController;
-
+        
         [Header("Dash")]
         //public float dashForce;
         //public float dashUpwardForce;
         //[SerializeField] float dashDuration = 3f;
         //float dashTime;
-
-
+        
         //[SerializeField] float dashCooldownTimer;
-
+        
         PlayerInputHandler m_InputHandler;
 
         Vector3 moveDirection;
@@ -53,6 +52,7 @@ namespace Unity.FPS.Gameplay
         }
         private void Update()
         {
+            
             if ( m_InputHandler.GetDashButtonDown())
             {
                 Dash();
@@ -71,7 +71,6 @@ namespace Unity.FPS.Gameplay
             isDashing = true;
             currentDashTime = 0;
 
-            // only horizontal movement
             Vector3 horizontalVelocity = new Vector3(m_Controller.velocity.x, 0, m_Controller.velocity.z);
             Vector3 horizontalDirection = horizontalVelocity.normalized;
 

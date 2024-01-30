@@ -83,5 +83,10 @@ namespace Unity.FPS.Game
                 OnDie?.Invoke();
             }
         }
+
+        public void HealthUpgrade(float amountToIncrease)
+        {
+            MaxHealth += amountToIncrease;
+        }
     }
 }

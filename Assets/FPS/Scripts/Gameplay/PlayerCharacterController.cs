@@ -116,7 +116,7 @@ namespace Unity.FPS.Gameplay
                 return 1f;
             }
         }
-
+        
         Health m_Health;
         PlayerInputHandler m_InputHandler;
         CharacterController m_Controller;
@@ -479,6 +479,12 @@ namespace Unity.FPS.Gameplay
 
             IsCrouching = crouched;
             return true;
+        }
+
+        public void SpeedUpgrade(float amountToIncrease)
+        {
+            MaxSpeedOnGround += amountToIncrease;
+            MaxSpeedInAir += amountToIncrease;
         }
     }
 }

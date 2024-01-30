@@ -17,28 +17,28 @@ namespace Unity.FPS.UI
         Button skillButton;
         
         [Header("Skill Settings")]
-        [SerializeField] string skillName;
+        [SerializeField] MySkills skill;
         [SerializeField] int skillCost;
 
         [Header("Skill Description References")]
         [SerializeField] GameObject skillExplanationObject;
 
-        SkillTreeMenuManager m_skillTree;
+        SkillTreeMenuManager m_SkillTree;
 
         // Start is called before the first frame update
         void Start()
         {
             skillNameTextHolder = this.gameObject.GetComponentInChildren<TextMeshProUGUI>();
             DebugUtility.HandleErrorIfNullFindObject<TextMeshProUGUI, NotificationHUDManager>(skillNameTextHolder, this);
-            skillNameTextHolder.text = skillName;
+            skillNameTextHolder.text = skill.ToString();
 
             skillButton = this.gameObject.GetComponent<Button>();
             DebugUtility.HandleErrorIfNullFindObject<Button, NotificationHUDManager>(skillButton, this);
             skillButton.onClick.AddListener(ButtonClicked);
             
 
-            m_skillTree = FindObjectOfType<SkillTreeMenuManager>();
-            DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(m_skillTree, this);
+            m_SkillTree = FindObjectOfType<SkillTreeMenuManager>();
+            DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(m_SkillTree, this);
 
             skillExplanationObject.SetActive(false);
         }
@@ -48,15 +48,15 @@ namespace Unity.FPS.UI
         {
             if (skillNameTextHolder.text == string.Empty) return;
         
-            BuySkill($"{skillNameTextHolder.text}");
+            BuySkill(skill);
         }
-        public void BuySkill(string skillName)
+        public void BuySkill(MySkills _skill)
         {
-            if (m_skillTree.skillPoints < skillCost) return;
+            if (m_SkillTree.SkillPoints < skillCost) return;
 
             Debug.Log("click");
             SkillBuyEvent evt = Events.SkillBuyEvent;
-            evt.SkillName = $"{skillName}";
+            evt.Skill = _skill;
             evt.SkillPrice = skillCost;
             EventManager.Broadcast(evt);
 

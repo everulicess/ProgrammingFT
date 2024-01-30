@@ -16,7 +16,7 @@ namespace Unity.FPS.Game
         float currentExperience = 0;
         void Start()
         {
-            //    EventManager.AddListener<LevelUpEvent>(LevelUp);
+            //EventManager.AddListener<LevelUpEvent>(LevelUp);
             EventManager.AddListener<EnemyKillEvent>(OnEnemyKilled);
             
         }
@@ -26,12 +26,17 @@ namespace Unity.FPS.Game
         }
         void Update()
         {
-            LevelIndicator.fillAmount = currentExperience/maxExperience;
-            LevelNumberText.text = levelNumber.ToString(); 
+            UpdateUI();
             if (currentExperience == maxExperience)
             {
                 Debug.Log("NewLevelReached");
             }
+        }
+
+        private void UpdateUI()
+        {
+            LevelIndicator.fillAmount = currentExperience / maxExperience;
+            LevelNumberText.text = levelNumber.ToString();
         }
 
 
@@ -49,7 +54,6 @@ namespace Unity.FPS.Game
 
         void OnEnemyKilled(EnemyKillEvent _event)
         {
-            
             currentExperience += 15;
             
             if (currentExperience >= maxExperience)

@@ -265,5 +265,9 @@ namespace Unity.FPS.Gameplay
             Gizmos.color = RadiusColor;
             Gizmos.DrawSphere(transform.position, Radius);
         }
+        public void DamageUpgrade(float amountToChange)
+        {
+            Damage += amountToChange;
+        }
     }
 }

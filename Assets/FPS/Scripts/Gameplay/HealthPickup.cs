@@ -7,7 +7,7 @@ namespace Unity.FPS.Gameplay
     {
         [Header("Parameters")] [Tooltip("Amount of health to heal on pickup")]
         public float HealAmount;
-
+        
         protected override void OnPicked(PlayerCharacterController player)
         {
             Health playerHealth = player.GetComponent<Health>();
@@ -17,6 +17,11 @@ namespace Unity.FPS.Gameplay
                 PlayPickupFeedback();
                 Destroy(gameObject);
             }
+        }
+        public void HealthUpgrade(float amountToIncrease)
+        {
+            HealAmount += amountToIncrease;
+            Debug.Log($"healing value is {HealAmount}");
         }
     }
 }
