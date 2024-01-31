@@ -23,6 +23,8 @@ namespace Unity.FPS.Game
 
         bool m_IsDead;
 
+        float extraHealing = 0;
+
         void Start()
         {
             CurrentHealth = MaxHealth;
@@ -31,8 +33,9 @@ namespace Unity.FPS.Game
         public void Heal(float healAmount)
         {
             float healthBefore = CurrentHealth;
-            CurrentHealth += healAmount;
+            CurrentHealth += healAmount + extraHealing;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+            Debug.Log($"Player heals: {healAmount+extraHealing}");
 
             // call OnHeal action
             float trueHealAmount = CurrentHealth - healthBefore;
@@ -46,7 +49,6 @@ namespace Unity.FPS.Game
         {
             if (Invincible)
                 return;
-
             float healthBefore = CurrentHealth;
             CurrentHealth -= damage;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
@@ -83,7 +85,10 @@ namespace Unity.FPS.Game
                 OnDie?.Invoke();
             }
         }
-
+        public void HealingUpgrade(float amountToIncrease)
+        {
+            extraHealing += amountToIncrease;
+        }
         public void HealthUpgrade(float amountToIncrease)
         {
             MaxHealth += amountToIncrease;

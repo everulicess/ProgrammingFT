@@ -498,5 +498,9 @@ namespace Unity.FPS.Game
 
             return spreadWorldDirection;
         }
+        public void AmmoUpgrade(float amountToIncrease)
+        {
+            MaxAmmo += (int)Mathf.FloorToInt(amountToIncrease);
+        }
     }
 }

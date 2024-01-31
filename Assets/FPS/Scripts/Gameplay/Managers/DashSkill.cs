@@ -10,33 +10,31 @@ namespace Unity.FPS.Gameplay
     [Serializable]
     public class DashSkill : MonoBehaviour
     {
-        //public Transform orientation;
-        //public Transform playerCam;
         CharacterController m_Controller;
-        //PlayerCharacterController m_PlayerController;
-        
+
         [Header("Dash")]
-        //public float dashForce;
-        //public float dashUpwardForce;
-        //[SerializeField] float dashDuration = 3f;
-        //float dashTime;
-        
-        //[SerializeField] float dashCooldownTimer;
-        
+        float dashTime = 0.5f;
+        float dashSpeed = 6f;
+        float dashDistance = 3f;
+
+
+        [Header("Cooldown")]
+        public float CurrentCooldown = 0;
+        public float cooldown = 5f;
         PlayerInputHandler m_InputHandler;
+
 
         Vector3 moveDirection;
 
-        const float maxDashTime = 1f;
-        float dashStoppingSpeed = 0.1f;
-        float dashDistance = 5f;
-        float dashCooldown = 2f;
+        //const float maxDashTime = 1f;
+        //float dashStoppingSpeed = 0.1f;
+        //float dashCooldown = 2f;
 
-        bool isDashing;
+        //bool isDashing;
 
-        float currentCooldown;
-        float currentDashTime = maxDashTime;
-        float dashSpeed = 6f;
+        //float currentCooldown;
+        //float currentDashTime = maxDashTime;
+        //float dashSpeed = 6f;
 
 
         private void Start()
@@ -48,53 +46,37 @@ namespace Unity.FPS.Gameplay
             m_Controller = GetComponent<CharacterController>();
             DebugUtility.HandleErrorIfNullGetComponent<CharacterController, DashSkill>(m_Controller,
                 this, gameObject);
-
         }
         private void Update()
         {
-            
-            if ( m_InputHandler.GetDashButtonDown())
+            if (m_InputHandler.GetDashButtonDown())
             {
+                Debug.Log($"dash pressed");
                 Dash();
             }
-            ResetDash();
-            if (currentCooldown>0)
-            {
-                currentCooldown -= Time.deltaTime;
-            }
+            CurrentCooldown -= Time.deltaTime;
         }
         private void Dash()
         {
-            if (currentCooldown > 0) return;
-            else currentCooldown = dashCooldown;
-            Debug.Log("DASHING RIGHT NOW");
-            isDashing = true;
-            currentDashTime = 0;
-
+            if (CurrentCooldown > 0) return;
+            else CurrentCooldown = cooldown;
             Vector3 horizontalVelocity = new Vector3(m_Controller.velocity.x, 0, m_Controller.velocity.z);
             Vector3 horizontalDirection = horizontalVelocity.normalized;
 
             moveDirection = horizontalDirection * dashDistance;
+            StartCoroutine(Dashing());
+            Debug.Log("Dash will be performed");
         }
-
-        private void ResetDash()
+        IEnumerator Dashing()
         {
-            if (!isDashing) return;
-            Debug.Log("DASH RESET");
-
-            if (currentDashTime < maxDashTime)
-            {
-                currentDashTime += dashStoppingSpeed;
-            }
-            else
-            {
-                isDashing = false;
-                //currentCooldown = dashCooldown;
-                moveDirection = Vector3.zero;
-            }
-            m_Controller.Move(moveDirection * Time.deltaTime * dashSpeed);
-
+            float startTime = Time.time;
             
+            while (Time.time < startTime + dashTime)
+            {
+                m_Controller.Move(dashSpeed * Time.deltaTime * moveDirection);
+                yield return null;
+            }
+
         }
     }
 }

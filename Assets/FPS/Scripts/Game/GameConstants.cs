@@ -21,7 +21,7 @@ namespace Unity.FPS.Game
             { MySkills.BlasterDamage, 10f},
             { MySkills.BlasterAmmo, 5f},
             { MySkills.LauncherDamage, 10f},
-            { MySkills.LauncherAmmo, 2f},
+            { MySkills.LauncherAmmo, 4f},
             { MySkills.ShotgunDamage, 4f},
             { MySkills.ShotgunAmmo, 5f},
             { MySkills.Healing, 20f},

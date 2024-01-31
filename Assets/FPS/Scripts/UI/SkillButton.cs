@@ -19,9 +19,11 @@ namespace Unity.FPS.UI
         [Header("Skill Settings")]
         [SerializeField] MySkills skill;
         [SerializeField] int skillCost;
+        [SerializeField] string skillDescription;
 
         [Header("Skill Description References")]
         [SerializeField] GameObject skillExplanationObject;
+        [SerializeField] TextMeshProUGUI skillExplanationTextHolder;
 
         SkillTreeMenuManager m_SkillTree;
 
@@ -41,6 +43,7 @@ namespace Unity.FPS.UI
             DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(m_SkillTree, this);
 
             skillExplanationObject.SetActive(false);
+            skillExplanationTextHolder.text = skillDescription;
         }
         
        

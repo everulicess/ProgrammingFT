@@ -28,10 +28,19 @@ namespace Unity.FPS.Gameplay
         DashSkill m_DashSkill;
         PlayerCharacterController m_PlayerController;
         Health m_PlayerHealth;
-        [SerializeField] HealthPickup[] healingObjects;
+
+        [Header("Healing Pickups Prefabs")]
+        [SerializeField] List<HealthPickup> healingObjects;
+        bool isHealingChanged = false;
+
+        [Header("Projectiles Prefabs")]
         [SerializeField] ProjectileStandard blaster;
+        bool isAmmoBlasterChanged = false;
         [SerializeField] ProjectileStandard shotgun;
+        bool isAmmoShotgunChanged = false;
         [SerializeField] ProjectileStandard launcher;
+        bool isAmmoLauncherChanged = false;
+
         private void Start()
         {
             m_DashSkill = GetComponent<DashSkill>();
@@ -51,8 +60,30 @@ namespace Unity.FPS.Gameplay
         }
         private void OnDestroy()
         {
-            GameConstants.SkillData.TryGetValue(MySkills.Healing, out float healingValue);
-            OnHealingUpgrade(-healingValue);
+            if (isHealingChanged)
+            {
+                GameConstants.SkillData.TryGetValue(MySkills.Healing, out float value);
+                OnHealingUpgrade(-value);
+            }
+
+            if (isAmmoShotgunChanged)
+            {
+                GameConstants.SkillData.TryGetValue(MySkills.ShotgunAmmo, out float value);
+                OnAmmoUpgrade("Shotgun", -value);
+
+            }
+            if (isAmmoLauncherChanged)
+            {
+                GameConstants.SkillData.TryGetValue(MySkills.LauncherAmmo, out float value);
+                OnAmmoUpgrade("Disc Launcher", -value);
+
+            }
+            if (isAmmoBlasterChanged)
+            {
+                GameConstants.SkillData.TryGetValue(MySkills.BlasterAmmo, out float value);
+                OnAmmoUpgrade("Blaster",-value);
+            }
+            
             //GameConstants.SkillData.TryGetValue(MySkills., out float value);
             EventManager.RemoveListener<SkillBuyEvent>(OnSkillBuy);
         }
@@ -74,21 +105,28 @@ namespace Unity.FPS.Gameplay
                     break;
                 case MySkills.Healing:
                     OnHealingUpgrade(amountToIncrease);
+                    isHealingChanged = true;
                     break;
                 case MySkills.LauncherDamage:
                     OnDamageUpgrade(launcher, amountToIncrease);
                     break;
                 case MySkills.LauncherAmmo:
+                    OnAmmoUpgrade("Disc Launcher", amountToIncrease);
+                    isAmmoLauncherChanged = true;
                     break;
                 case MySkills.ShotgunDamage:
                     OnDamageUpgrade(shotgun, amountToIncrease);
                     break;
                 case MySkills.ShotgunAmmo:
+                    OnAmmoUpgrade("Shotgun", amountToIncrease);
+                    isAmmoShotgunChanged = true;
                     break;
                 case MySkills.BlasterDamage:
                     OnDamageUpgrade(blaster, amountToIncrease);
                     break;
                 case MySkills.BlasterAmmo:
+                    OnAmmoUpgrade("Blaster", amountToIncrease);
+                    isAmmoBlasterChanged = true;
                     break;
                 case MySkills.Dash:
                     OnDashUnlocked();
@@ -130,6 +168,16 @@ namespace Unity.FPS.Gameplay
             //OnDamageIncreased.Invoke(true);
             projectile.DamageUpgrade(amount);
         }
+        public void OnAmmoUpgrade(string weaponName, float amount)
+        {
+            foreach (WeaponController weapon in FindObjectsOfType<WeaponController>())
+            {
+                if (weapon.WeaponName == weaponName)
+                {
+                    weapon.AmmoUpgrade(amount);
+                }
+            }
+        }
         public void OnHealthUpgrade(float amount)
         {
             //OnHealthIncreased.Invoke(true);
@@ -139,15 +187,13 @@ namespace Unity.FPS.Gameplay
         public void OnHealingUpgrade(float amount)
         {
             //OnHealingIncreased.Invoke(true);
-            foreach (HealthPickup healthPickup in healingObjects)
-            {
-                healthPickup.HealthUpgrade(amount);
-            }
+            m_PlayerHealth.HealingUpgrade(amount);
+
         }
-        public void OnAmmoIncreaseUpgrade(float amount)
-        {
-            //OnAmmoIncreased.Invoke(true);
-        }
+        //public void OnAmmoIncreaseUpgrade(float amount)
+        //{
+        //    //OnAmmoIncreased.Invoke(true);
+        //}
         public void OnDashUnlocked()
         {
             //OnUnlockDash.Invoke(true);

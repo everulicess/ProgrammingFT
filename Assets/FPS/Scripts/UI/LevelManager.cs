@@ -62,7 +62,8 @@ namespace Unity.FPS.Game
                 currentExperience -= maxExperience;
                 maxExperience *= 1.50f; ;
                 Debug.Log("NewLevelReached");
-                EventManager.Broadcast(new LevelUpEvent());
+                LevelUpEvent evt = new LevelUpEvent();
+                EventManager.Broadcast(evt);
             }
             //Debug.Log($"Current fill amount: {LevelIndicator.fillAmount}");
             //Debug.Log($"Current exp: {currentExperience}|||| current Max Exp: {maxExperience}");

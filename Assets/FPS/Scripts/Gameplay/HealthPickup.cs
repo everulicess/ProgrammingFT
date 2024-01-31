@@ -18,10 +18,5 @@ namespace Unity.FPS.Gameplay
                 Destroy(gameObject);
             }
         }
-        public void HealthUpgrade(float amountToIncrease)
-        {
-            HealAmount += amountToIncrease;
-            Debug.Log($"healing value is {HealAmount}");
-        }
     }
 }

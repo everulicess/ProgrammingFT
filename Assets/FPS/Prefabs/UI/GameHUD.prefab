@@ -1913,6 +1913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7730855410354769530}
+  - component: {fileID: 3764578022669499960}
   - component: {fileID: 5917255261459168744}
   - component: {fileID: 8202736506323863205}
   - component: {fileID: 5499754808462435493}
@@ -1947,6 +1948,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3764578022669499960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413294659218134590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d24539e73633643aa29789d761881d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JetpackFillImage: {fileID: 0}
+  MainCanvasGroup: {fileID: 0}
+  FillBarColorChange: {fileID: 0}
 --- !u!114 &5917255261459168744
 MonoBehaviour:
   m_ObjectHideFlags: 0
