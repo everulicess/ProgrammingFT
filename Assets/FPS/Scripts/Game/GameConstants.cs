@@ -18,11 +18,11 @@ namespace Unity.FPS.Game
     {
         public static Dictionary<MySkills, float> SkillData = new Dictionary<MySkills, float>()
         {
-            { MySkills.BlasterDamage, 10f},
+            { MySkills.BlasterDamage, 5f},
             { MySkills.BlasterAmmo, 5f},
-            { MySkills.LauncherDamage, 10f},
+            { MySkills.LauncherDamage, 5f},
             { MySkills.LauncherAmmo, 4f},
-            { MySkills.ShotgunDamage, 4f},
+            { MySkills.ShotgunDamage, 2f},
             { MySkills.ShotgunAmmo, 5f},
             { MySkills.Healing, 20f},
             { MySkills.Health, 50f},

@@ -30,9 +30,14 @@ namespace Unity.FPS.UI
         {
             MainCanvasGroup.gameObject.SetActive(m_Dash.enabled == true);
 
+            UpdateCounter();
+        }
+
+        private void UpdateCounter()
+        {
             if (m_Dash.enabled == true)
             {
-                DashFillImage.fillAmount = -m_Dash.CurrentCooldown;
+                DashFillImage.fillAmount = -m_Dash.CurrentCoolDown;
                 //FillBarColorChange.UpdateVisual(m_Jetpack.CurrentFillRatio);
             }
         }

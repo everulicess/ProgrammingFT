@@ -43,7 +43,7 @@ namespace Unity.FPS.UI
             DebugUtility.HandleErrorIfNullFindObject<SkillTreeMenuManager, NotificationHUDManager>(m_SkillTree, this);
 
             skillExplanationObject.SetActive(false);
-            skillExplanationTextHolder.text = skillDescription;
+            skillExplanationTextHolder.text = $"{skillDescription}\n Price: {skillCost}";
         }
         
        
@@ -51,9 +51,9 @@ namespace Unity.FPS.UI
         {
             if (skillNameTextHolder.text == string.Empty) return;
         
-            BuySkill(skill);
+            OnBuySkill(skill);
         }
-        public void BuySkill(MySkills _skill)
+        public void OnBuySkill(MySkills _skill)
         {
             if (m_SkillTree.SkillPoints < skillCost) return;
 
@@ -64,12 +64,9 @@ namespace Unity.FPS.UI
             EventManager.Broadcast(evt);
 
             skillButton.interactable = false;
-        
         }
-
         public void OnPointerEnter(PointerEventData eventData)
         {
-            //Debug.Log($"hovering over button: {skillName}");
             ShowExplanation(true);
         }
         private void ShowExplanation(bool activate)
@@ -78,7 +75,6 @@ namespace Unity.FPS.UI
         }
         public void OnPointerExit(PointerEventData eventData)
         {
-            //Debug.Log($"hovering exit button: {skillName}");
             ShowExplanation(false);
         }
     }

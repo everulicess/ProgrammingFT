@@ -10,6 +10,7 @@ namespace Unity.FPS.UI
     public class SkillTreeMenuManager : MonoBehaviour
     {
         public int SkillPoints = 0;
+        int skillPointsToAdd = 5;
 
         [SerializeField] TextMeshProUGUI skillPointsTextHolder;
         private void Start()
@@ -17,12 +18,10 @@ namespace Unity.FPS.UI
             EventManager.AddListener<LevelUpEvent>(OnLevelUp);
             EventManager.AddListener<SkillBuyEvent>(OnSkillBuy);
             skillPointsTextHolder.text = $"Skill Points: {SkillPoints}";
-
         }
-
         private void OnLevelUp(LevelUpEvent _event)
         {
-            SkillPoints += 2;
+            SkillPoints += skillPointsToAdd;
             skillPointsTextHolder.text = $"Skill Points: {SkillPoints}";
         }
         private void OnSkillBuy(SkillBuyEvent _event)

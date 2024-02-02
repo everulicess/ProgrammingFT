@@ -12,13 +12,12 @@ namespace Unity.FPS.Game
         [SerializeField] TextMeshProUGUI LevelNumberText;
         
         int levelNumber;
-        float maxExperience = 20;
-        float currentExperience = 0;
+        float maxExperience = 20f;
+        float currentExperience = 0f;
+        float experience = 15f;
         void Start()
         {
-            //EventManager.AddListener<LevelUpEvent>(LevelUp);
             EventManager.AddListener<EnemyKillEvent>(OnEnemyKilled);
-            
         }
         private void OnDestroy()
         {
@@ -32,29 +31,15 @@ namespace Unity.FPS.Game
                 Debug.Log("NewLevelReached");
             }
         }
-
         private void UpdateUI()
         {
             LevelIndicator.fillAmount = currentExperience / maxExperience;
             LevelNumberText.text = levelNumber.ToString();
         }
 
-
-        /// <summary>
-        /// create Event in Events
-        /// How to fire the evet = EventManager.Broadcast(new LevelUpEvent());
-        /// If I want an object to fire an event have to add listener = EventManager.AddListener<LevelUpEvent>(LevelUp);
-        /// Don't forget to remove the listener = EventManager.RemoveListener<LevelUpEvent>(LevelUp);
-        /// </summary>
-        /// <param name="_event"></param>
-        //void LevelUp(LevelUpEvent _event)
-        //{
-        //    _event.DebugSomeething("NEW LEVEL HAS BEEN REACHED");
-        //}
-
         void OnEnemyKilled(EnemyKillEvent _event)
         {
-            currentExperience += 15;
+            currentExperience += experience;
             
             if (currentExperience >= maxExperience)
             {
@@ -65,12 +50,7 @@ namespace Unity.FPS.Game
                 LevelUpEvent evt = new LevelUpEvent();
                 EventManager.Broadcast(evt);
             }
-            //Debug.Log($"Current fill amount: {LevelIndicator.fillAmount}");
-            //Debug.Log($"Current exp: {currentExperience}|||| current Max Exp: {maxExperience}");
-            //Debug.Log("Gets Experience");
-
         }
     }
-    
 }
 

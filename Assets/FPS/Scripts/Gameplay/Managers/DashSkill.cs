@@ -10,32 +10,19 @@ namespace Unity.FPS.Gameplay
     [Serializable]
     public class DashSkill : MonoBehaviour
     {
-        CharacterController m_Controller;
-
         [Header("Dash")]
         float dashTime = 0.5f;
         float dashSpeed = 6f;
         float dashDistance = 3f;
 
-
         [Header("Cooldown")]
-        public float CurrentCooldown = 0;
-        public float cooldown = 5f;
-        PlayerInputHandler m_InputHandler;
+        public float CurrentCoolDown = 0;
+        float cooldown = 5f;
 
+        PlayerInputHandler m_InputHandler;
+        CharacterController m_Controller;
 
         Vector3 moveDirection;
-
-        //const float maxDashTime = 1f;
-        //float dashStoppingSpeed = 0.1f;
-        //float dashCooldown = 2f;
-
-        //bool isDashing;
-
-        //float currentCooldown;
-        //float currentDashTime = maxDashTime;
-        //float dashSpeed = 6f;
-
 
         private void Start()
         {
@@ -51,21 +38,25 @@ namespace Unity.FPS.Gameplay
         {
             if (m_InputHandler.GetDashButtonDown())
             {
-                Debug.Log($"dash pressed");
                 Dash();
             }
-            CurrentCooldown -= Time.deltaTime;
+            CoolDown();
         }
+
+        private void CoolDown()
+        {
+            CurrentCoolDown -= Time.deltaTime;
+        }
+
         private void Dash()
         {
-            if (CurrentCooldown > 0) return;
-            else CurrentCooldown = cooldown;
+            if (CurrentCoolDown > 0) return;
+            else CurrentCoolDown = cooldown;
             Vector3 horizontalVelocity = new Vector3(m_Controller.velocity.x, 0, m_Controller.velocity.z);
             Vector3 horizontalDirection = horizontalVelocity.normalized;
 
             moveDirection = horizontalDirection * dashDistance;
             StartCoroutine(Dashing());
-            Debug.Log("Dash will be performed");
         }
         IEnumerator Dashing()
         {
@@ -76,7 +67,6 @@ namespace Unity.FPS.Gameplay
                 m_Controller.Move(dashSpeed * Time.deltaTime * moveDirection);
                 yield return null;
             }
-
         }
     }
 }

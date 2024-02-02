@@ -10,21 +10,11 @@ namespace Unity.FPS.Gameplay
     [RequireComponent(typeof(DashSkill), typeof(Health), typeof(PlayerCharacterController))]
     public class Skills : MonoBehaviour
     {
-        //increase healing, increase health, increase speed, increase ammo, increase damage, having a dash with a cooldown
-
-        //public UnityAction<bool> OnUnlockDash;
-        //public UnityAction<bool> OnAmmoIncreased;
-        //public UnityAction<bool> OnHealthIncreased;
-        //public UnityAction<bool> OnHealingIncreased;
-        //public UnityAction<bool> OnSpeedIncreased;
-        //public UnityAction<bool> OnDamageIncreased;
-
         MySkills skill;
         float amountToIncrease;
 
         public UnityAction<MySkills> OnSkillUpgraded;
 
-        //bool healingUpgraded;
         DashSkill m_DashSkill;
         PlayerCharacterController m_PlayerController;
         Health m_PlayerHealth;
@@ -55,7 +45,7 @@ namespace Unity.FPS.Gameplay
             m_PlayerHealth = GetComponent<Health>();
             DebugUtility.HandleErrorIfNullGetComponent<Health, Skills>(m_PlayerHealth,
                 this, gameObject);
-            //Subscribe to events
+
             EventManager.AddListener<SkillBuyEvent>(OnSkillBuy);
         }
         private void OnDestroy()
@@ -63,112 +53,78 @@ namespace Unity.FPS.Gameplay
             if (isHealingChanged)
             {
                 GameConstants.SkillData.TryGetValue(MySkills.Healing, out float value);
-                OnHealingUpgrade(-value);
+                HealingUpgrade(-value);
             }
-
             if (isAmmoShotgunChanged)
             {
                 GameConstants.SkillData.TryGetValue(MySkills.ShotgunAmmo, out float value);
-                OnAmmoUpgrade("Shotgun", -value);
-
+                AmmoUpgrade("Shotgun", -value);
             }
             if (isAmmoLauncherChanged)
             {
                 GameConstants.SkillData.TryGetValue(MySkills.LauncherAmmo, out float value);
-                OnAmmoUpgrade("Disc Launcher", -value);
-
+                AmmoUpgrade("Disc Launcher", -value);
             }
             if (isAmmoBlasterChanged)
             {
                 GameConstants.SkillData.TryGetValue(MySkills.BlasterAmmo, out float value);
-                OnAmmoUpgrade("Blaster",-value);
+                AmmoUpgrade("Blaster",-value);
             }
             
-            //GameConstants.SkillData.TryGetValue(MySkills., out float value);
             EventManager.RemoveListener<SkillBuyEvent>(OnSkillBuy);
         }
-        
-
         public void OnSkillBuy(SkillBuyEvent _event)
         {
             skill = _event.Skill;
             GameConstants.SkillData.TryGetValue(skill, out float value);
             amountToIncrease = value;
 
-            Debug.Log($"name skill{skill} and value {value}");
-
             OnSkillUpgraded.Invoke(skill);
             switch (skill)
             {
                 case MySkills.Health:
-                    OnHealthUpgrade(amountToIncrease);
+                    HealthUpgrade(amountToIncrease);
                     break;
                 case MySkills.Healing:
-                    OnHealingUpgrade(amountToIncrease);
+                    HealingUpgrade(amountToIncrease);
                     isHealingChanged = true;
                     break;
                 case MySkills.LauncherDamage:
-                    OnDamageUpgrade(launcher, amountToIncrease);
+                    DamageUpgrade(launcher, amountToIncrease);
                     break;
                 case MySkills.LauncherAmmo:
-                    OnAmmoUpgrade("Disc Launcher", amountToIncrease);
+                    AmmoUpgrade("Disc Launcher", amountToIncrease);
                     isAmmoLauncherChanged = true;
                     break;
                 case MySkills.ShotgunDamage:
-                    OnDamageUpgrade(shotgun, amountToIncrease);
+                    DamageUpgrade(shotgun, amountToIncrease);
                     break;
                 case MySkills.ShotgunAmmo:
-                    OnAmmoUpgrade("Shotgun", amountToIncrease);
+                    AmmoUpgrade("Shotgun", amountToIncrease);
                     isAmmoShotgunChanged = true;
                     break;
                 case MySkills.BlasterDamage:
-                    OnDamageUpgrade(blaster, amountToIncrease);
+                    DamageUpgrade(blaster, amountToIncrease);
                     break;
                 case MySkills.BlasterAmmo:
-                    OnAmmoUpgrade("Blaster", amountToIncrease);
+                    AmmoUpgrade("Blaster", amountToIncrease);
                     isAmmoBlasterChanged = true;
                     break;
                 case MySkills.Dash:
-                    OnDashUnlocked();
+                    DashUnlocked();
                     break;
                 case MySkills.Speed:
-                    OnSpeedUpgrade(amountToIncrease);
+                    SpeedUpgrade(amountToIncrease);
                     break;
                 default:
                     break;
             }
-            //string nameSkill = _event.SkillName;
-            //Debug.Log("this skill has been bought: " + nameSkill);
-            //switch (nameSkill)
-            //{
-            //    case "Dash":
-            //        OnDashUnlocked();
-            //        ;break;
-            //    case "Health":
-            //        OnHealthUpgrade();
-            //        ;break;
-            //    case "Healing":
-            //        OnHealingUpgrade();
-            //        ; break;
-            //    case "Speed":
-            //        OnSpeedUpgrade();
-            //        ; break;
-            //    case "Ammo":
-            //        OnAmmoIncreaseUpgrade();
-            //        ; break;
-            //    case "Damage":
-            //        OnDamageUpgrade();
-            //        ; break;
-            //    default:
-            //        break;
-            //}
         }
-        public void OnDamageUpgrade(ProjectileStandard projectile, float amount)
+        public void DamageUpgrade(ProjectileStandard projectile, float amount)
         {
-            //OnDamageIncreased.Invoke(true);
             projectile.DamageUpgrade(amount);
         }
-        public void OnAmmoUpgrade(string weaponName, float amount)
+        public void AmmoUpgrade(string weaponName, float amount)
         {
             foreach (WeaponController weapon in FindObjectsOfType<WeaponController>())
             {
@@ -178,32 +134,21 @@ namespace Unity.FPS.Gameplay
                 }
             }
         }
-        public void OnHealthUpgrade(float amount)
+        public void HealthUpgrade(float amount)
         {
-            //OnHealthIncreased.Invoke(true);
             m_PlayerHealth.HealthUpgrade(amount);
-
         }
-        public void OnHealingUpgrade(float amount)
+        public void HealingUpgrade(float amount)
         {
-            //OnHealingIncreased.Invoke(true);
             m_PlayerHealth.HealingUpgrade(amount);
-
         }
-        //public void OnAmmoIncreaseUpgrade(float amount)
-        //{
-        //    //OnAmmoIncreased.Invoke(true);
-        //}
-        public void OnDashUnlocked()
+        public void DashUnlocked()
         {
-            //OnUnlockDash.Invoke(true);
             m_DashSkill.enabled = true;
         }
-        public void OnSpeedUpgrade(float amount)
+        public void SpeedUpgrade(float amount)
         {
-            //OnSpeedIncreased.Invoke(true);
             m_PlayerController.SpeedUpgrade(amount);
         }
-
     }
 }
