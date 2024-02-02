@@ -213,8 +213,6 @@ namespace Unity.FPS.Gameplay
             //level up "L"
             if (m_InputHandler.GetLevelUpButtonDown())
             {
-                Debug.Log("Level Up");
-
                 EventManager.Broadcast(new LevelUpEvent());
             }
 

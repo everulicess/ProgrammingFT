@@ -57,7 +57,6 @@ namespace Unity.FPS.UI
         {
             if (m_SkillTree.SkillPoints < skillCost) return;
 
-            Debug.Log("click");
             SkillBuyEvent evt = Events.SkillBuyEvent;
             evt.Skill = _skill;
             evt.SkillPrice = skillCost;
